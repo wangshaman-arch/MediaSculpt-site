@@ -110,11 +110,12 @@
   }
 
   .shot{
-    margin:0 0 72px;border:1px solid var(--border);border-radius:var(--radius);
-    background:var(--surface);aspect-ratio:16/9;
-    display:flex;align-items:center;justify-content:center;
-    color:var(--faint);font-size:14px;text-align:center;padding:24px;
+    margin:0;border:1px solid var(--border);border-radius:var(--radius);
+    background:var(--surface);overflow:hidden;
   }
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:0 0 76px}
+  .shot img{display:block;width:100%;height:auto}
+  .shot figcaption{padding:10px 14px;font-size:13px;color:var(--muted);line-height:1.5}
 
   section.block{padding:0 0 76px}
   .block h2{
@@ -271,6 +272,21 @@
         <strong data-page-node-id="beta-title">公开测试说明</strong><br>
         V0.839 是 Windows 基础测试版，重点验证真实视频、DVD 和蓝光素材的分析、字幕和输出链路，不代表所有片源都已达到稳定发布标准。遇到失败时，请在 GitHub Issue 中写明素材类型、系统版本、操作步骤，并附上诊断日志。测试期间暂不收取软件订阅费；第三方 API 或网络服务费用由用户承担。
         <br><br><a href="https://github.com/wangshaman-arch/MediaSculpt/issues" data-page-node-id="beta-link">前往 GitHub 提交反馈 →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="screenshots" data-page-node-id="screenshots-section">
+    <div class="wrap" data-page-node-id="screenshots-wrap">
+      <h2 data-page-node-id="screenshots-title">实际界面</h2>
+      <p class="lede" data-page-node-id="screenshots-lede">以下截图来自 V0.839 Windows 测试版，展示当前可见的工作流和设置界面；实际可用能力仍以本机工具状态和任务日志为准。</p>
+      <div class="shots" data-page-node-id="screenshots-grid">
+        <figure class="shot"><img src="assets/1.png" alt="MediaSculpt 智能工作流界面"><figcaption>智能工作流：分析来源、确认步骤后加入任务队列</figcaption></figure>
+        <figure class="shot"><img src="assets/2.png" alt="MediaSculpt 任务详情与视频预览"><figcaption>任务详情：视频预览、字幕状态和任务信息</figcaption></figure>
+        <figure class="shot"><img src="assets/2-1.png" alt="MediaSculpt 视频压缩界面"><figcaption>视频压缩：HandBrake 预设和来源目录</figcaption></figure>
+        <figure class="shot"><img src="assets/2-2.png" alt="MediaSculpt 字幕处理界面"><figcaption>语音与字幕文件处理：OCR、内置字幕和 Whisper 选项</figcaption></figure>
+        <figure class="shot"><img src="assets/2-3.png" alt="MediaSculpt Remux 无损封装界面"><figcaption>Remux 无损封装：DVD/蓝光来源和标题选择</figcaption></figure>
+        <figure class="shot"><img src="assets/3-1.png" alt="MediaSculpt 设置界面"><figcaption>设置：目录、压缩、Whisper、API 与本地工具</figcaption></figure>
       </div>
     </div>
   </section>
