@@ -28,6 +28,9 @@ jobs:
         run: |
           mkdir -p public
           cp index.html public/index.html
+          if [ -d assets ]; then
+            cp -R assets public/assets
+          fi
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
