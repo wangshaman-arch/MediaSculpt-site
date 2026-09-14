@@ -14,7 +14,7 @@
   MediaSculpt 发布页
   ============================================================
   1. 当前页面面向 Windows 公开测试版。
-  2. 等 GitHub Release 上传安装器后，将下载链接替换为 Release 资产地址。
+  2. 安装器下载按钮指向 GitHub Release 资产；发布新版本时同步更新版本号和链接。
   3. 部署（任选其一，均免费）：
      - GitHub Pages：本文件放到仓库根目录并命名为 index.html，
        Settings → Pages 选择分支即可。
@@ -228,11 +228,11 @@
       </p>
 
       <div class="actions" data-page-node-id="Kp5HViNBTXpyJF2qFTqJ6H">
-        <a class="btn primary" href="https://github.com/wangshaman-arch/MediaSculpt/blob/main/windows-setup/README.txt" data-page-node-id="zzpLhryHZGdQvNdCpNosII">
+        <a class="btn primary" href="https://github.com/wangshaman-arch/MediaSculpt/releases/download/v0.840.0/MediaSculpt_0.840.0_x64-setup-base.exe" data-page-node-id="zzpLhryHZGdQvNdCpNosII">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="mPBwgf4q3FCCeGhClKsKsB">
             <path d="M8 1.5v9m0 0L4.5 7M8 10.5L11.5 7M2 13.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="hRYmu5o3kq1ALBJvhtmdtF"/>
           </svg>
-          查看 Windows 安装说明
+          下载 Windows 基础预览版
         </a>
         <a class="btn secondary" href="https://github.com/wangshaman-arch/MediaSculpt#run-from-source" data-page-node-id="FV5kRBhdiJlPGSqmFWTfi3">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="48F4RwFWJ5Z8652P8Poh52">
@@ -242,7 +242,7 @@
         </a>
       </div>
 
-      <p class="meta" data-page-node-id="TznZUGqXhpc4hxQNvQEEcW">V 0.839 · Windows 10/11（64 位）· 公开测试版</p>
+      <p class="meta" data-page-node-id="TznZUGqXhpc4hxQNvQEEcW">V 0.840 · Windows 10/11（64 位）· 基础预览版</p>
 
       <div class="badges" data-page-node-id="oNmISebOQXNlILKCKldB0j">
         <span class="badge" data-page-node-id="SxRSSbb3TmaKD6oLaJY50w">
@@ -271,7 +271,7 @@
     <div class="wrap" data-page-node-id="beta-wrap">
       <div class="note" data-page-node-id="beta-note">
         <strong data-page-node-id="beta-title">公开测试说明</strong><br>
-        V0.839 是 Windows 基础测试版，重点验证真实视频、DVD 和蓝光素材的分析、字幕和输出链路，不代表所有片源都已达到稳定发布标准。遇到失败时，请在 GitHub Issue 中写明素材类型、系统版本、操作步骤，并附上诊断日志。测试期间暂不收取软件订阅费；第三方 API 或网络服务费用由用户承担。
+        V0.840 是 Windows 基础预览版，重点验证真实视频、DVD 和蓝光素材的分析、字幕和输出链路，不代表所有片源都已达到稳定发布标准。安装包已包含 FFmpeg、FFprobe 和 HandBrakeCLI；OCR、Whisper 与翻译工具按需安装。试用期为 30 天或 20 次成功主任务，以先到者为准；失败、取消和仅预览任务不扣次数。遇到失败时，请在 GitHub Issue 中写明素材类型、系统版本、操作步骤，并附上诊断日志。第三方 API 或网络服务费用由用户承担。
         <br><br><a href="https://github.com/wangshaman-arch/MediaSculpt/issues" data-page-node-id="beta-link">前往 GitHub 提交反馈 →</a>
       </div>
     </div>
@@ -280,7 +280,7 @@
   <section class="block" id="screenshots" data-page-node-id="screenshots-section">
     <div class="wrap" data-page-node-id="screenshots-wrap">
       <h2 data-page-node-id="screenshots-title">实际界面</h2>
-      <p class="lede" data-page-node-id="screenshots-lede">以下截图来自 V0.839 Windows 测试版，展示当前可见的工作流和设置界面；实际可用能力仍以本机工具状态和任务日志为准。</p>
+      <p class="lede" data-page-node-id="screenshots-lede">以下截图来自 V0.840 Windows 预览版，展示当前可见的工作流和设置界面；实际可用能力仍以本机工具状态和任务日志为准。</p>
       <div class="shots" data-page-node-id="screenshots-grid">
         <figure class="shot"><img src="assets/1.png" alt="MediaSculpt 智能工作流界面"><figcaption>智能工作流：分析来源、确认步骤后加入任务队列</figcaption></figure>
         <figure class="shot"><img src="assets/2.png" alt="MediaSculpt 任务详情与视频预览"><figcaption>任务详情：视频预览、字幕状态和任务信息</figcaption></figure>
@@ -382,7 +382,7 @@
         <strong data-page-node-id="piRCzOKA7AmILaHf6U9CWo">字幕来源会决定处理路径。</strong> 有可用软字幕时优先提取；图形字幕先尝试 OCR；只有没有可用文字字幕时才进入 Whisper。
         语音识别速度取决于视频时长、模型和硬件，翻译速度取决于所选模型、网络和服务限流。
         <br><br>
-        基础安装包不包含 Whisper 大模型和可选 OCR 工具；首次使用时可在设置中安装，模型大小和磁盘占用随选择变化。
+        基础安装包已包含 FFmpeg、FFprobe 和 HandBrakeCLI；Whisper 大模型、OCR 和本地翻译工具按需安装，模型大小和磁盘占用随选择变化。
       </div>
     </div>
   </section>
@@ -417,8 +417,8 @@
         <h2 data-page-node-id="h6P2kcCZFGotSdjlkJms3G">系统要求</h2>
         <div class="req-list" data-page-node-id="WHjVR3l2OtSfytnDVOYvpq">
           <div data-page-node-id="JC9qXGFC7cZ8GL8LRxCZXn"><span data-page-node-id="ZH75xBGFgr9lYJzJxY6uNR">Windows</span><span data-page-node-id="mkE4y09rmbQCEoD3Znw3oX">Windows 10/11，64 位（当前安装包目标）</span></div>
-          <div data-page-node-id="4mku66vePEUHHO2bGxjuku"><span data-page-node-id="y5rxE9Flg5p5W2h6umBgAo">版本状态</span><span data-page-node-id="1YzCnyLYGp6B81hK3uPria">V 0.839 Windows 公开测试版</span></div>
-          <div data-page-node-id="iFOiHFvZALxBCYqiVlDvRw"><span data-page-node-id="VsxKo2Ij4F1yAjowhHkzNf">磁盘空间</span><span data-page-node-id="kGAAn5HWyxeSdRxpJOKsKn">基础包不含 Whisper/OCR 模型；模型和输出文件另计</span></div>
+          <div data-page-node-id="4mku66vePEUHHO2bGxjuku"><span data-page-node-id="y5rxE9Flg5p5W2h6umBgAo">版本状态</span><span data-page-node-id="1YzCnyLYGp6B81hK3uPria">V 0.840 Windows 基础预览版</span></div>
+          <div data-page-node-id="iFOiHFvZALxBCYqiVlDvRw"><span data-page-node-id="VsxKo2Ij4F1yAjowhHkzNf">磁盘空间</span><span data-page-node-id="kGAAn5HWyxeSdRxpJOKsKn">安装包约 123 MB；模型和输出文件另计</span></div>
           <div data-page-node-id="iNoc0JureVS4WBbODlz7Ar"><span data-page-node-id="2G0xQWHBRb9awq9WZfn6Wn">网络</span><span data-page-node-id="nBdugqVPMCV7VuF9AanT8q">首次安装工具/模型、在线翻译或视觉 OCR 时需要</span></div>
         </div>
       </div>
@@ -435,7 +435,7 @@
         <div class="card" data-page-node-id="faq-6"><h3>为什么有字幕时仍可能进入语音识别？</h3><p>软件会先判断字幕轨是否为可用软字幕，再尝试图形字幕 OCR；轨道不可读、工具缺失或覆盖不完整时，才可能回退到 Whisper。请以任务日志中的字幕来源为准。</p></div>
         <div class="card" data-page-node-id="faq-7"><h3>预览或输出播放失败怎么办？</h3><p>浏览器和播放器对容器、编码、字幕烧录的支持不同。请先检查任务输出和诊断日志，并在反馈中附上源文件类型、编码和错误码。</p></div>
         <div class="card" data-page-node-id="faq-4"><h3>遇到问题怎么反馈？</h3><p>请在 GitHub 仓库提交 Issue，并附上任务类型、系统版本和诊断日志，方便定位问题。</p></div>
-        <div class="card" data-page-node-id="faq-5"><h3>测试版会收费吗？</h3><p>公开测试期间暂不收取软件订阅费；你配置的第三方 AI、翻译或网络服务可能按其规则收费，正式版授权方式另行公布。</p></div>
+        <div class="card" data-page-node-id="faq-5"><h3>测试版有什么限制？</h3><p>Windows 基础预览版提供 30 天或 20 次成功主任务的试用额度，以先到者为准。失败、取消和仅预览任务不扣次数；你配置的第三方 AI、翻译或网络服务可能按其规则收费。</p></div>
       </div>
     </div>
   </section>
@@ -444,10 +444,10 @@
     <div class="wrap" data-page-node-id="legal-wrap">
       <h2 data-page-node-id="legal-title">版权、许可证与隐私</h2>
       <div class="grid" data-page-node-id="legal-grid">
-        <div class="card" data-page-node-id="legal-license"><h3>项目许可证</h3><p>MediaSculpt（影刻）的源代码和项目文档按 MIT 许可证发布，版权归 MediaSculpt contributors 所有。详情请查看 <a href="https://github.com/wangshaman-arch/MediaSculpt/blob/main/LICENSE">LICENSE</a>。</p></div>
+        <div class="card" data-page-node-id="legal-license"><h3>软件版权与许可</h3><p>MediaSculpt（影刻）是专有软件，不按 MIT 或其他开源许可证发布。预览版使用条款请查看 <a href="https://github.com/wangshaman-arch/MediaSculpt/blob/main/EULA.md">EULA</a> 和 <a href="https://github.com/wangshaman-arch/MediaSculpt/blob/main/LICENSE">LICENSE</a>。</p></div>
         <div class="card" data-page-node-id="legal-third-party"><h3>第三方组件</h3><p>软件可能使用 Tauri、Node.js、React、FFmpeg/FFprobe、HandBrakeCLI、Whisper、LibreTranslate 等组件。它们保留各自许可证和版权声明，MediaSculpt 不会重新授权这些组件。</p></div>
-        <div class="card" data-page-node-id="legal-privacy"><h3>隐私与联网</h3><p>视频、字幕、日志和输出默认在本机处理。下载工具/模型，或使用已配置的翻译、元数据、海报、视觉 OCR 服务时才会联网；发送的数据受对应服务的条款和隐私政策约束。</p></div>
-        <div class="card" data-page-node-id="legal-test"><h3>测试版提示</h3><p>当前是 Windows 公开测试版，不提供结果或适用性的保证。请确认素材处理权利，核验输出，并保留源素材备份。</p><p><a href="https://github.com/wangshaman-arch/MediaSculpt/blob/main/docs/legal-and-privacy.md">查看完整双语说明 →</a></p></div>
+        <div class="card" data-page-node-id="legal-privacy"><h3>隐私与 AI 数据</h3><p>视频、字幕、日志和输出默认在本机处理。AI 为可选增强，API Key 和提交内容由用户直接发送给所选服务商，不经过 MediaSculpt 服务器；发送的数据受对应服务条款和隐私政策约束。</p></div>
+        <div class="card" data-page-node-id="legal-test"><h3>第三方组件与测试提示</h3><p>第三方组件按各自许可证提供，完整清单请查看 <a href="https://github.com/wangshaman-arch/MediaSculpt/blob/main/THIRD-PARTY-NOTICES.md">THIRD-PARTY-NOTICES</a>。当前版本不保证所有片源都能成功处理，请确认素材处理权利、核验输出并保留源素材备份。</p><p><a href="https://github.com/wangshaman-arch/MediaSculpt/blob/main/docs/legal-and-privacy.md">查看完整双语说明 →</a></p></div>
       </div>
     </div>
   </section>
@@ -457,11 +457,11 @@
       <h2 data-page-node-id="mKmu2P0no7aUiWdRdIWR99">查看安装与源码</h2>
       <p data-page-node-id="9WGdRGw3Q6oRaVQV0Jicne">当前是 Windows 公开测试版；请以安装说明、源码和任务日志为准，不把页面文案当作兼容性保证。</p>
       <div class="actions" data-page-node-id="DiFY0HMKnFpbQAJW1vl4FS">
-        <a class="btn primary" href="https://github.com/wangshaman-arch/MediaSculpt/blob/main/windows-setup/README.txt" data-page-node-id="8srgBgWWs5ieR78qA4oezp">
+        <a class="btn primary" href="https://github.com/wangshaman-arch/MediaSculpt/releases/download/v0.840.0/MediaSculpt_0.840.0_x64-setup-base.exe" data-page-node-id="8srgBgWWs5ieR78qA4oezp">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="PEuHVEvEKixcDyWHsuHEei">
             <path d="M8 1.5v9m0 0L4.5 7M8 10.5L11.5 7M2 13.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="CAyCxlY1v3X9DjnbyegJev"/>
           </svg>
-          查看 Windows 安装说明
+          下载 Windows 基础预览版
         </a>
         <a class="btn secondary" href="https://github.com/wangshaman-arch/MediaSculpt" data-page-node-id="PKo8e1d7s2Dtmpt0zJrAig">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="YYqGK0kQnJxBPiymxlRDfZ">
