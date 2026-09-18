@@ -1,10 +1,10 @@
 # MediaSculpt（影刻）版权、许可与隐私说明
 
-> **Version:** V 0.840 · 版本：V 0.840
+> **Version:** V 0.843 · 版本：V 0.843
 
 ## 版权与许可证
 
-MediaSculpt（影刻）的源代码、界面、品牌、文档和软件本身是专有内容，不按 MIT 或其他开源许可证授权。V0.840 Preview 为免费试用版，具体条款见 [`EULA.md`](EULA.md) 和 [`LICENSE`](LICENSE)。
+MediaSculpt（影刻）的源代码、界面、品牌、文档和软件本身是专有内容，不按 MIT 或其他开源许可证授权。V0.843 Preview 为免费试用版，具体条款见 [`EULA.md`](EULA.md) 和 [`LICENSE`](LICENSE)。
 
 ## 第三方软件
 
