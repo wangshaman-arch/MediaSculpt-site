@@ -1,6 +1,6 @@
-# MediaSculpt（影刻）V0.840 Preview 使用条款
+# MediaSculpt（影刻）V0.843 Preview 使用条款
 
-> **Version:** V 0.840 · 版本：V 0.840
+> **Version:** V 0.843 · 版本：V 0.843
 
 ## 1. 试用许可
 
@@ -27,3 +27,4 @@
 ## 6. 专有权利
 
 MediaSculpt 源代码、界面、品牌和文档不以 MIT 或其他开源许可证授权。未经书面许可，不得复制、修改、再发布、再许可或将 MediaSculpt 本身作为其他产品的一部分分发。
+
