@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="4ppocwEKWOx60zdiDQOGmU">
+<head data-page-node-id="Z3s3REUd9TzE7uCT9CQmny">
+<meta charset="UTF-8" data-page-node-id="odUFsL066ZHke1kxbxjlkz">
+<meta name="viewport" content="width=device-width, initial-scale=1" data-page-node-id="ZkYqvJoSpp6EdxIcPANh3T">
+<title>MediaSculpt（影刻）— 本地视频处理工作台</title>
+<meta name="description" content="MediaSculpt（影刻）是 Windows 本地视频处理工作台：视频压缩、DVD／蓝光分析与无损封装、字幕提取、OCR、语音识别和可选 AI 翻译。公开测试版，片源兼容性需实际验证。" data-page-node-id="laYC5mPlETObux7BA6F1so">
+<meta property="og:title" content="MediaSculpt（影刻）— 本地视频处理工作台">
+<meta property="og:description" content="在 Windows 本机完成视频压缩、DVD／蓝光分析与无损封装、字幕处理和可选 AI 翻译。">
+<meta property="og:type" content="website">
+
+<!--
+  ============================================================
+  MediaSculpt 发布页
+  ============================================================
+  1. 当前页面面向 Windows 公开测试版。
+  2. 下载按钮必须指向当前实际存在的预览文件；源码预览包和原生安装器必须明确区分。
+  3. 部署（任选其一，均免费）：
+     - GitHub Pages：本文件放到仓库根目录并命名为 index.html，
+       Settings → Pages 选择分支即可。
+     - Cloudflare Pages：连接该仓库，构建命令留空，输出目录填 .
+
+  文案上的三条硬规则（改文案时请保留）：
+  - 主标题讲体验，副标题讲清本地处理范围与限制；速度描述必须有明确条件。
+  - 不要使用「追剧」「生肉」等词，易被关联到资源站，可能招致应用商店
+    与支付通道的审核问题。
+  - remux 是行话，对外一律写作「无损提取」，把 remux 放在括号里。
+  ============================================================
+-->
+
+<style>
+  :root{
+    --bg:#ffffff;
+    --surface:#f6f7f9;
+    --text:#14161a;
+    --muted:#5b6270;
+    --faint:#8b93a1;
+    --border:#e5e7eb;
+    --accent:#2563eb;
+    --accent-hover:#1d4ed8;
+    --radius:12px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+  .draft-banner{
+    background:#fffbeb;
+    border-bottom:1px solid #fde68a;
+    color:#78350f;
+    font-size:13px;
+    text-align:center;
+    padding:8px 24px;
+  }
+
+  header.site{border-bottom:1px solid var(--border)}
+  header.site .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;gap:16px;
+  }
+  .brand{font-weight:600;font-size:17px;letter-spacing:-0.01em;text-decoration:none}
+  nav.site{display:flex;gap:22px;font-size:14px;color:var(--muted)}
+  nav.site a{text-decoration:none}
+  nav.site a:hover{color:var(--text)}
+
+  .hero{padding:84px 0 56px;text-align:center}
+  .hero h1{
+    margin:0;font-size:44px;line-height:1.18;
+    letter-spacing:-0.025em;font-weight:600;
+  }
+  .hero .tagline{
+    margin:20px auto 0;max-width:620px;
+    font-size:18px;line-height:1.65;color:var(--muted);
+  }
+  .actions{
+    margin-top:34px;display:flex;flex-wrap:wrap;
+    gap:12px;justify-content:center;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:13px 24px;border-radius:10px;font-size:15px;font-weight:500;
+    text-decoration:none;border:1px solid transparent;
+    transition:background-color .15s ease, border-color .15s ease;
+  }
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.primary:hover{background:var(--accent-hover)}
+  .btn.secondary{background:var(--bg);color:var(--text);border-color:var(--border)}
+  .btn.secondary:hover{border-color:#c9cfd8}
+  .btn svg{flex:none}
+
+  .meta{margin-top:20px;font-size:13px;color:var(--faint)}
+
+  .badges{
+    margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:13px;color:#15803d;background:#f0fdf4;
+    border:1px solid #bbf7d0;border-radius:999px;padding:5px 13px;
+  }
+
+  .shot{
+    margin:0;border:1px solid var(--border);border-radius:var(--radius);
+    background:var(--surface);overflow:hidden;
+  }
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:0 0 76px}
+  .shot img{display:block;width:100%;height:auto}
+  .shot figcaption{padding:10px 14px;font-size:13px;color:var(--muted);line-height:1.5}
+
+  section.block{padding:0 0 76px}
+  .block h2{
+    margin:0 0 14px;font-size:26px;font-weight:600;
+    letter-spacing:-0.015em;text-align:center;
+  }
+  .block .lede{
+    margin:0 auto 34px;max-width:620px;text-align:center;
+    font-size:15px;line-height:1.7;color:var(--muted);
+  }
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+  .card{border:1px solid var(--border);border-radius:var(--radius);padding:24px 22px}
+  .card h3{margin:0 0 10px;font-size:16px;font-weight:600}
+  .card p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.65}
+  .card p strong{color:var(--text);font-weight:500}
+  .card .tag{
+    display:inline-block;font-size:12px;color:#0f6e56;background:#e1f5ee;
+    border-radius:999px;padding:2px 9px;margin-bottom:12px;
+  }
+
+  table.matrix{
+    width:100%;border-collapse:collapse;font-size:14.5px;
+    border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  }
+  table.matrix th,table.matrix td{
+    text-align:left;padding:13px 16px;border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  table.matrix thead th{
+    background:var(--surface);font-weight:500;font-size:13.5px;color:var(--muted);
+  }
+  table.matrix tbody tr:last-child td{border-bottom:0}
+  table.matrix td:last-child{white-space:nowrap;color:var(--muted)}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .step{border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+  .step .num{
+    display:flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:50%;
+    background:var(--surface);border:1px solid var(--border);
+    font-size:13px;font-weight:500;color:var(--accent);margin-bottom:12px;
+  }
+  .step h3{margin:0 0 8px;font-size:15px;font-weight:600}
+  .step p{margin:0;font-size:14px;color:var(--muted);line-height:1.65}
+
+  .note{
+    margin-top:26px;background:var(--surface);
+    border-radius:var(--radius);padding:20px 24px;
+    font-size:14.5px;color:var(--muted);line-height:1.7;
+  }
+  .note strong{color:var(--text);font-weight:500}
+
+  .reqs{background:var(--surface);border-radius:var(--radius);padding:30px}
+  .reqs h2{margin:0 0 18px;font-size:20px;font-weight:600;text-align:left}
+  .req-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px 32px;font-size:14.5px}
+  .req-list div{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);padding-bottom:11px}
+  .req-list span:first-child{color:var(--muted)}
+  .req-list span:last-child{text-align:right}
+
+  .final{text-align:center;padding:0 0 92px}
+  .final h2{margin:0 0 12px;font-size:28px;font-weight:600;letter-spacing:-0.015em}
+  .final p{margin:0 0 26px;color:var(--muted)}
+
+  footer.site{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:var(--muted)}
+  footer.site .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between}
+  footer.site a{text-decoration:none}
+  footer.site a:hover{color:var(--text)}
+
+  @media (max-width:640px){
+    .hero{padding:52px 0 40px}
+    .hero h1{font-size:30px}
+    .hero .tagline{font-size:16.5px}
+    .btn{width:100%;justify-content:center}
+    nav.site{gap:14px;font-size:13px}
+    .brand{font-size:16px}
+    table.matrix{font-size:13.5px}
+    table.matrix th,table.matrix td{padding:11px 12px}
+    table.matrix td:last-child{white-space:normal}
+  }
+</style>
+</head>
+<body data-page-node-id="VoqA7Vjm1BhaSgVt8c5Xzj">
+
+<div class="draft-banner" data-page-node-id="6pnxbWIyF1ST8CvF0ZGiXt">
+  Windows 公开测试版 · 功能以实际安装包和软件界面为准 · 欢迎提交问题与建议
+</div>
+
+<header class="site" data-page-node-id="Pou5tNhPZTo2gGYGcE1fD6">
+  <div class="wrap" data-page-node-id="1TnuN4s8SQTrZhcFHstoqQ">
+    <a class="brand" href="/" data-page-node-id="YEiEElvlBUxsroKI1ik0El">MediaSculpt <span style="color:var(--muted);font-weight:400">影刻</span></a>
+    <nav class="site" data-page-node-id="fTSxAOKlA5GV2vbhA4TXlZ">
+      <a href="#features" data-page-node-id="W7U4O6ETcrUx2ZGCdGwrGl">功能</a>
+      <a href="#tools" data-page-node-id="tools-nav">识别工具</a>
+      <a href="#matrix" data-page-node-id="NPDZzTfydPvH0hfz1UgV0m">能力边界</a>
+      <a href="#beta" data-page-node-id="beta-nav">测试说明</a>
+      <a href="#faq" data-page-node-id="faq-nav">常见问题</a>
+      <a href="#legal" data-page-node-id="legal-nav">版权与隐私</a>
+      <a href="https://github.com/wangshaman-arch/MediaSculpt-site/blob/main/PREVIEW-V0.856.md" data-page-node-id="dwYCIVV7vzUpFeN7VW729U">更新日志与下载</a>
+      <a href="https://github.com/wangshaman-arch/MediaSculpt-site" data-page-node-id="NjQwCrzWO8yHRQ2cZHgzhm">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main data-page-node-id="LslRoSHs1Mu8Q8pC4KZMa0">
+  <section class="hero" data-page-node-id="zWpPGIfaBzsfkI8msHAmFY">
+    <div class="wrap" data-page-node-id="SUV53TRcDfJMN2P0SAqFGA">
+      <h1 data-page-node-id="o5Ih2OWi2xtK7tnm0GeoAW">本地处理视频，按你的流程完成字幕与压缩</h1>
+      <p class="tagline" data-page-node-id="OjVyYvaaWFXTTxYf2VQlrQ">
+        MediaSculpt（影刻）是面向 Windows 的本地视频处理工作台：先识别片源和字幕，再由你选择字幕、无损封装或压缩步骤。AI 只作为可选增强，不替用户自动决定处理方式。
+      </p>
+
+      <div class="actions" data-page-node-id="Kp5HViNBTXpyJF2qFTqJ6H">
+        <a class="btn primary" href="https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.856.0/MediaSculpt_0.856.0_x64-setup-base.exe" data-page-node-id="zzpLhryHZGdQvNdCpNosII">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="mPBwgf4q3FCCeGhClKsKsB">
+            <path d="M8 1.5v9m0 0L4.5 7M8 10.5L11.5 7M2 13.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="hRYmu5o3kq1ALBJvhtmdtF"/>
+          </svg>
+          下载 V0.856 基础预览安装器
+        </a>
+        <a class="btn secondary" href="PREVIEW-V0.856.md" data-page-node-id="FV5kRBhdiJlPGSqmFWTfi3">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="48F4RwFWJ5Z8652P8Poh52">
+            <path d="M8 1.5v9m0 0L4.5 7M8 10.5L11.5 7M2 13.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="RqW4r4tc1wnd9kIUV9TgCQ"/>
+          </svg>
+          查看安装说明与校验
+        </a>
+      </div>
+
+      <p class="meta" data-page-node-id="TznZUGqXhpc4hxQNvQEEcW">V 0.856 · Windows 10/11（64 位）· 受限基础预览版 · 安装器约 124 MB</p>
+
+      <div class="badges" data-page-node-id="oNmISebOQXNlILKCKldB0j">
+        <span class="badge" data-page-node-id="SxRSSbb3TmaKD6oLaJY50w">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="ACBCXECEinamLWqJM26DgX">
+            <path d="M8 1.8l5.2 2v4.1c0 3.3-2.2 5.6-5.2 6.5-3-0.9-5.2-3.2-5.2-6.5V3.8L8 1.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" data-page-node-id="rGwVYB8bYsXF313orDMzEs"/>
+          </svg>
+          视频默认只在本机处理
+        </span>
+        <span class="badge" data-page-node-id="Eyk3JHJgIYRBOUvAX0AXi4">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="EuFi0hH5uOIHY2jVk9hwxR">
+            <path d="M2.5 8.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="wKPTSibQClC3TvxfEXNCCn"/>
+          </svg>
+          模型安装后可离线处理
+        </span>
+        <span class="badge" data-page-node-id="NwKBCxcAd21hCS12z7O4IH">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="WHYj9Vv0ZxBYyHSmHVjiYC">
+            <path d="M2.5 8.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="vSEILBJnWHUj5MHCkOgAVO"/>
+          </svg>
+          Windows 安装包不依赖 Docker
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="beta" data-page-node-id="beta-section" style="padding-bottom:64px">
+    <div class="wrap" data-page-node-id="beta-wrap">
+      <div class="note" data-page-node-id="beta-note">
+        <strong data-page-node-id="beta-title">公开测试说明</strong><br>
+        V0.856 是 Windows 受限基础预览版，包含 DVD 源路径识别和输出命名修复。基础安装器包含 FFmpeg、FFprobe 和 HandBrakeCLI；Whisper、OCR 与翻译工具按需安装。真实 DVD、蓝光、字幕和压缩能力仍需以本机工具状态、任务日志和实际片源验证。预览版限制为 30 天或 20 次成功主任务，以先到者为准。遇到失败时，请在 GitHub Issue 中写明素材类型、系统版本、操作步骤，并附上诊断日志。第三方 API 或网络服务费用由用户承担。
+        <br><br><a href="https://github.com/wangshaman-arch/MediaSculpt-site/issues" data-page-node-id="beta-link">前往 GitHub 提交反馈 →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="screenshots" data-page-node-id="screenshots-section">
+    <div class="wrap" data-page-node-id="screenshots-wrap">
+      <h2 data-page-node-id="screenshots-title">实际界面</h2>
+      <p class="lede" data-page-node-id="screenshots-lede">以下截图来自此前 Windows 预览版，展示当前可见的工作流和设置界面；V0.856 的实际可用能力仍以本机工具状态和任务日志为准。</p>
+      <div class="shots" data-page-node-id="screenshots-grid">
+        <figure class="shot"><img src="assets/1.png" alt="MediaSculpt 智能工作流界面"><figcaption>智能工作流：分析来源、确认步骤后加入任务队列</figcaption></figure>
+        <figure class="shot"><img src="assets/2.png" alt="MediaSculpt 任务详情与视频预览"><figcaption>任务详情：视频预览、字幕状态和任务信息</figcaption></figure>
+        <figure class="shot"><img src="assets/2-1.png" alt="MediaSculpt 视频压缩界面"><figcaption>视频压缩：HandBrake 预设和来源目录</figcaption></figure>
+        <figure class="shot"><img src="assets/2-2.png" alt="MediaSculpt 字幕处理界面"><figcaption>语音与字幕文件处理：OCR、内置字幕和 Whisper 选项</figcaption></figure>
+        <figure class="shot"><img src="assets/2-3.png" alt="MediaSculpt Remux 无损封装界面"><figcaption>Remux 无损封装：DVD/蓝光来源和标题选择</figcaption></figure>
+        <figure class="shot"><img src="assets/3-1.png" alt="MediaSculpt 设置界面"><figcaption>设置：目录、压缩、Whisper、API 与本地工具</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="features" data-page-node-id="iUTnXW00k4eTvx004YzEQj">
+    <div class="wrap" data-page-node-id="qhD5Yiz0o58XURQ5rzgHL6">
+      <h2 data-page-node-id="gaqiwHHPKanpaXKKbNsNez">它做什么</h2>
+      <p class="lede" data-page-node-id="sAn19d2JWp5UOuc4ocyZ0y">从普通视频到 DVD／蓝光，影刻把分析、字幕、无损封装和压缩放在同一条可确认的工作流里。</p>
+      <div class="grid" data-page-node-id="jMGFUTv9COI0sFlP2YoAoH">
+
+        <div class="card" data-page-node-id="yKoTMDw0mhW8O5TkThBjoj">
+          <span class="tag" data-page-node-id="mPHWguFEyrVx6fs6itQC4z">核心</span>
+          <h3 data-page-node-id="Je781i8AgZXG54JurCltIG">明确选择后开始</h3>
+          <p data-page-node-id="Opf26QVlqUSxNOiRffApWt">不需要命令行。加载片源后，用户明确选择 Remux、字幕或压缩步骤及相关参数，再确认任务；软件不会预先替你勾选处理模式。</p>
+        </div>
+
+        <div class="card" data-page-node-id="RlA51kdy94qexykZCl7vLv">
+          <span class="tag" data-page-node-id="uePeJyJZ0FYNBIbXBjIhAc">核心</span>
+          <h3 data-page-node-id="CcVA38zF9dCuABOGV0VayD">本地字幕生成</h3>
+          <p data-page-node-id="H86Wz8joFNoJ9bgBNnnkDX">已有软字幕优先提取，图形字幕尝试 OCR，没有可用字幕才使用 Whisper。工具和模型安装完成后可离线处理；首次准备工具或模型需要联网。</p>
+        </div>
+
+        <div class="card" data-page-node-id="DhmmK20IWcT1WBmezwRoDD">
+          <span class="tag" data-page-node-id="q9wviRF3C0pRCPJun9UcjF">核心</span>
+          <h3 data-page-node-id="ywAWvefNeb6H8QXfpRfkIE">AI 双语字幕</h3>
+          <p data-page-node-id="bdU7wIN6l2yOrh5Z34nrUv">翻译需要联网和用户配置的 AI 服务，通常只发送字幕文字；使用视觉模型进行图形字幕 OCR 时，可能还会发送字幕图像。第三方调用费用由用户承担。</p>
+        </div>
+
+        <div class="card" data-page-node-id="K2cx3qAAVLO1RXws4QARpO">
+          <span class="tag" data-page-node-id="Xa3s5uCTS6ebHlKHWpVBs5">核心</span>
+          <h3 data-page-node-id="9F4n1dAvsHFVpwDUEcQgR0">双语排版可调</h3>
+          <p data-page-node-id="JfijNpYUqH2fqwzdcyvZwI">双语字幕可按布局设置上下顺序、位置和字号；ASS 更适合表达字号差异，导出前可在本地预览。</p>
+        </div>
+
+        <div class="card" data-page-node-id="X6gkNR0Db30uIDhIhHsUH1">
+          <span class="tag" data-page-node-id="9yD7d5ZX8hGaXQTUBAUFVC">顺手也能做</span>
+          <h3 data-page-node-id="JxMBwD2RurAN2idygF8sc7">压缩与老碟处理</h3>
+          <p data-page-node-id="bZ01GoAqWNbE8IUo7vdh6C">普通视频和光盘内容可使用 HandBrake 重新编码；DVD／蓝光可尝试<strong data-page-node-id="VI6iBsPMevpfuYA22Yo4HW">无损封装（Remux，不重新编码）</strong>。复杂片源仍需实际验证。</p>
+        </div>
+
+        <div class="card" data-page-node-id="rV69ixegZeM0EwSsPcEvvm">
+          <span class="tag" data-page-node-id="LAjF5xGmu2cfHMyupYCqF7">顺手也能做</span>
+          <h3 data-page-node-id="4hIVc02NOFVKgi21GP1oRf">可组合的归档链路</h3>
+          <p data-page-node-id="dRIKFDhxP28Hl13gNsOUQE">可以把分析、字幕、Remux 和压缩串成任务链；每一步独立记录输入、输出和错误，最终播放兼容性仍取决于源文件、容器和编码。</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="tools" data-page-node-id="tools-section">
+    <div class="wrap" data-page-node-id="tools-wrap">
+      <h2 data-page-node-id="tools-title">语音识别与字幕识别工具</h2>
+      <p class="lede" data-page-node-id="tools-lede">这些工具决定字幕生成链路能否工作。基础安装包负责通用媒体处理，识别工具在软件内按需准备，安装状态和日志都可以在本机查看。</p>
+      <div class="grid" data-page-node-id="tools-grid">
+        <div class="card" data-page-node-id="tool-whisper">
+          <span class="tag">语音识别</span>
+          <h3>Whisper：没有文字字幕时生成字幕</h3>
+          <p><strong>用途：</strong>从视频音轨识别对白，生成原语言字幕；需要翻译时再进入双语字幕流程。打开软件的“设置 → 工具”，选择模型后点击安装或更新。模型越大通常越准确，也会占用更多磁盘和处理时间。</p>
+        </div>
+        <div class="card" data-page-node-id="tool-ocr">
+          <span class="tag">图形字幕</span>
+          <h3>RapidOCR / Tesseract：识别 PGS、VobSub 等字幕图像</h3>
+          <p><strong>用途：</strong>把画面中的图形字幕转换成可编辑的 SRT/ASS。优先在“设置 → 工具”安装 RapidOCR；也可以准备 Tesseract 作为兼容路径。扫描时选择 OCR 引擎和字幕语言，识别效果取决于清晰度、字体、语言数据和字幕帧数量。</p>
+        </div>
+        <div class="card" data-page-node-id="tool-translate">
+          <span class="tag">本地翻译</span>
+          <h3>LibreTranslate：在本机完成可选翻译</h3>
+          <p><strong>用途：</strong>把已提取或已识别的字幕翻译成目标语言。工具页可按需安装本地服务，配置地址后在字幕流程中选择翻译。首次安装需要联网，服务启动后字幕文本可以留在本机；翻译质量和速度受本地模型影响。</p>
+        </div>
+        <div class="card" data-page-node-id="tool-media">
+          <span class="tag">已内置</span>
+          <h3>FFmpeg、FFprobe、HandBrakeCLI</h3>
+          <p><strong>用途：</strong>FFprobe/FFmpeg 负责媒体探测、字幕提取和无损封装，HandBrakeCLI 负责重新编码压缩。基础安装包已包含它们；工具页可查看版本、路径和健康状态，出现异常时先刷新工具状态再查看诊断日志。</p>
+        </div>
+      </div>
+      <div class="steps" data-page-node-id="tools-steps" style="margin-top:18px">
+        <div class="step"><div class="num">1</div><h3>先检查工具</h3><p>安装后打开“设置 → 工具”，确认 FFmpeg、FFprobe 和 HandBrakeCLI 状态正常；按任务需要安装 Whisper 或 OCR。</p></div>
+        <div class="step"><div class="num">2</div><h3>再分析字幕来源</h3><p>有软字幕时优先提取；PGS/VobSub 进入 OCR；没有可用文字字幕时选择 Whisper。以任务日志记录的字幕来源为准。</p></div>
+        <div class="step"><div class="num">3</div><h3>最后翻译和导出</h3><p>识别或提取完成后再翻译、导出 SRT/ASS 或压制进视频。失败时保留工具日志、源类型、引擎和模型信息。</p></div>
+      </div>
+      <div class="note" data-page-node-id="tools-note"><strong>联网与隐私：</strong>工具首次安装和模型下载需要联网。Whisper、RapidOCR、Tesseract 和 LibreTranslate 准备完成后可在本机运行；在线 AI 翻译或视觉 OCR 会按所选服务商的规则发送相应文字或图像，视频文件默认不上传。</div>
+    </div>
+  </section>
+
+  <section class="block" id="matrix" data-page-node-id="aDyr5vKW2NFESW6AmFuS32">
+    <div class="wrap" data-page-node-id="GzFEca6yOjP44mQ3b2aOsH">
+      <h2 data-page-node-id="gytX0ZDVE0EGw07IEvPRH2">能力边界</h2>
+      <p class="lede" data-page-node-id="NzpP9noJYSzFDpVJYaj0oG">下面描述的是处理优先级和依赖条件，不是对每种片源的时间保证。</p>
+      <table class="matrix" data-page-node-id="MMXit7rZHHWOVvG4DEQ9LA">
+        <thead data-page-node-id="nFi5A4JNeEKztFJwXMxOBX">
+          <tr data-page-node-id="Q0DBo9hAohP0wbGryrZYJr">
+            <th data-page-node-id="GJM0cVLyZJH9bgUhJcy4ic">你的素材</th>
+            <th data-page-node-id="otqtB3WlJ4nt6wvNBcPNtQ">它会做什么</th>
+            <th data-page-node-id="E3BBwMKYwRLrRASU1I0kHC">大致耗时</th>
+          </tr>
+        </thead>
+        <tbody data-page-node-id="GD17zb4LEpj5AyzflF6GFC">
+          <tr data-page-node-id="vPC56YQi5eWcoR5ei0iMO5">
+            <td data-page-node-id="tN2djKCsKj9LDU1tTFCTXz">含可用软字幕轨的剧集 / 电影</td>
+            <td data-page-node-id="DmY8RjpfPzdaP4D8bc1iCA">优先提取字幕，再按选择翻译；不会无故改用 Whisper</td>
+            <td data-page-node-id="0FnXwEs6ECNQPlkVIHfy9O">通常少于语音识别，但受格式和时长影响</td>
+          </tr>
+          <tr data-page-node-id="ylS7RFRrXBt1dvxZPinJsu">
+            <td data-page-node-id="kjrG8b12dlmISCrLmS5N8c">没有可用字幕、需要生成字幕</td>
+            <td data-page-node-id="s18C3aGADmQbsAFtIsGqrW">提取音轨后使用本地 Whisper 语音识别</td>
+            <td data-page-node-id="UviHlMX50VkoMH37T5UjF4">随视频时长、模型和硬件增长</td>
+          </tr>
+          <tr data-page-node-id="PXMw14VMRv3SETa5fwBiqd">
+            <td data-page-node-id="PdksufX8bIfmEH5OA3Rfmo">外语音轨且没有可用文字字幕</td>
+            <td data-page-node-id="jgrinIRX5pMwtXxUMQwAmQ">本地语音识别；需要时再在线翻译</td>
+            <td data-page-node-id="PF4QEfdXOrY4uqi4U5GiRV">语音识别与翻译时间相加</td>
+          </tr>
+          <tr data-page-node-id="Y9PaW2oR7DHpdez6OnGMgo">
+            <td data-page-node-id="BoGARQK6y83fnaaT3blkD1">图形字幕（PGS / VobSub）</td>
+            <td data-page-node-id="vwtDAIBIpJhMXW4T9EZXC4">优先尝试 OCR；引擎或语言数据不可用时会提示或回退</td>
+            <td data-page-node-id="xLO4SmrSbZG6Jm57gGQelu">取决于字幕帧数量、OCR 引擎和片源</td>
+          </tr>
+          <tr data-page-node-id="tVMob69MkVcDt08Tc9kBOb">
+            <td data-page-node-id="JPZzxadbLtFcCNHBa2bEys">DVD / 蓝光碟</td>
+            <td data-page-node-id="FncanZCtoxZ4qeV4jgWBbS">先分析标题或播放列表，再按选择 Remux、字幕或压缩</td>
+            <td data-page-node-id="MzpldqGoTHGdCxvIN81fnT">视片源、标题数量和时长而定</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note" data-page-node-id="fi1jIen0oGpDq0A2HY5LkI">
+        <strong data-page-node-id="piRCzOKA7AmILaHf6U9CWo">字幕来源会决定处理路径。</strong> 有可用软字幕时优先提取；图形字幕先尝试 OCR；只有没有可用文字字幕时才进入 Whisper。
+        语音识别速度取决于视频时长、模型和硬件，翻译速度取决于所选模型、网络和服务限流。
+        <br><br>
+          基础安装器已包含 FFmpeg、FFprobe 和 HandBrakeCLI；Whisper 大模型、OCR 和本地翻译工具按需安装。源码预览包和安装器均提供 SHA-256 校验文件，真实输出仍需按任务日志核验。
+      </div>
+    </div>
+  </section>
+
+  <section class="block" data-page-node-id="lvJmKI7qOdiqZ3FSTOAg9p">
+    <div class="wrap" data-page-node-id="rRLyHY4YoV8hfYTGu8A5Kz">
+      <h2 data-page-node-id="jFFfmUHczfBEFqKhUt7MJn">它是怎么做的</h2>
+      <p class="lede" data-page-node-id="b0EaJKLaMGMT2dwsmtum7m">本地处理为主；首次准备工具、在线翻译和部分视觉 OCR 会联网。</p>
+      <div class="steps" data-page-node-id="1fcGCdz8ORoLSu3loWo1fg">
+        <div class="step" data-page-node-id="XpyybzNnoXkWS2ZDbqpZD4">
+          <div class="num" data-page-node-id="p1G8usHdxCGkwYw4aUvOOi">1</div>
+          <h3 data-page-node-id="Y63rvLmlkgruNAatsvdVFZ">识别字幕来源</h3>
+          <p data-page-node-id="SJEYcvFsMZKCUVtKiGNZAM">软字幕优先提取，图形字幕尝试 OCR，没有可用字幕才提取音轨运行 Whisper。工具和模型安装完成后，处理可在本机完成。</p>
+        </div>
+        <div class="step" data-page-node-id="QqTClAH6ifJjS6pHMqR6KD">
+          <div class="num" data-page-node-id="lDEMHNkBYbBGXHoEkUOPje">2</div>
+          <h3 data-page-node-id="eq8WnMjC1NPYveat7FdwiS">按需使用网络服务</h3>
+          <p data-page-node-id="VldKQppUADD4azR24QtPP7">翻译通常发送字幕文字；视觉 OCR 可能发送字幕图像。视频文件默认不上传，但第三方服务的处理和留存规则由其服务条款决定。</p>
+        </div>
+        <div class="step" data-page-node-id="s0ZpRgS707qPIVJfRk9xkN">
+          <div class="num" data-page-node-id="HkaQVHmRPKEcVpBXcwF0L7">3</div>
+          <h3 data-page-node-id="Wa94JbH7STgj7WGt9A5RhP">写回并检查输出</h3>
+          <p data-page-node-id="b3q5YFxttuvARsqruEyL3X">可导出 SRT/ASS 双语软字幕，或选择压制进视频。输出是否能被特定播放器直接播放，仍取决于容器、编码和源文件。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" data-page-node-id="wmTKGZJ6bg8wHI9rhz1DTm">
+    <div class="wrap" data-page-node-id="yfx4uEbdtwsJAkJWK8hEQr">
+      <div class="reqs" data-page-node-id="FgGdxrr18dHaY7baycjMDi">
+        <h2 data-page-node-id="h6P2kcCZFGotSdjlkJms3G">系统要求</h2>
+        <div class="req-list" data-page-node-id="WHjVR3l2OtSfytnDVOYvpq">
+          <div data-page-node-id="JC9qXGFC7cZ8GL8LRxCZXn"><span data-page-node-id="ZH75xBGFgr9lYJzJxY6uNR">Windows</span><span data-page-node-id="mkE4y09rmbQCEoD3Znw3oX">Windows 10/11，64 位（当前安装包目标）</span></div>
+<div data-page-node-id="4mku66vePEUHHO2bGxjuku"><span data-page-node-id="y5rxE9Flg5p5W2h6umBgAo">版本状态</span><span data-page-node-id="1YzCnyLYGp6B81hK3uPria">V 0.856 Windows 受限基础预览版</span></div>
+          <div data-page-node-id="iFOiHFvZALxBCYqiVlDvRw"><span data-page-node-id="VsxKo2Ij4F1yAjowhHkzNf">磁盘空间</span><span data-page-node-id="kGAAn5HWyxeSdRxpJOKsKn">安装器约 124 MB；模型和输出文件另计</span></div>
+          <div data-page-node-id="iNoc0JureVS4WBbODlz7Ar"><span data-page-node-id="2G0xQWHBRb9awq9WZfn6Wn">网络</span><span data-page-node-id="nBdugqVPMCV7VuF9AanT8q">首次安装工具/模型、在线翻译或视觉 OCR 时需要</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" data-page-node-id="faq-section">
+    <div class="wrap" data-page-node-id="faq-wrap">
+      <h2 data-page-node-id="faq-title">常见问题</h2>
+      <div class="grid" data-page-node-id="faq-grid">
+        <div class="card" data-page-node-id="faq-1"><h3>视频会上传吗？</h3><p>视频和光盘内容默认只在本机读取、处理和写回。在线翻译会发送字幕文字；视觉 OCR 可能发送字幕图像到你配置的服务。</p></div>
+        <div class="card" data-page-node-id="faq-2"><h3>现在支持哪些系统？</h3><p>当前公开测试安装包面向 Windows 10/11、64 位系统。其他系统没有对应的正式安装包，不应按 Windows 安装包的兼容性推断。</p></div>
+        <div class="card" data-page-node-id="faq-3"><h3>为什么第一次处理会比较慢？</h3><p>首次使用 Whisper 或 OCR 时需要安装工具并下载模型；之后会使用本机缓存。语音识别和复杂光盘分析本身也会随时长增长。</p></div>
+        <div class="card" data-page-node-id="faq-6"><h3>为什么有字幕时仍可能进入语音识别？</h3><p>软件会先判断字幕轨是否为可用软字幕，再尝试图形字幕 OCR；轨道不可读、工具缺失或覆盖不完整时，才可能回退到 Whisper。请以任务日志中的字幕来源为准。</p></div>
+        <div class="card" data-page-node-id="faq-7"><h3>预览或输出播放失败怎么办？</h3><p>浏览器和播放器对容器、编码、字幕烧录的支持不同。请先检查任务输出和诊断日志，并在反馈中附上源文件类型、编码和错误码。</p></div>
+        <div class="card" data-page-node-id="faq-4"><h3>遇到问题怎么反馈？</h3><p>请在 GitHub 仓库提交 Issue，并附上任务类型、系统版本和诊断日志，方便定位问题。</p></div>
+        <div class="card" data-page-node-id="faq-5"><h3>测试版有什么限制？</h3><p>Windows 基础预览版提供 30 天或 20 次成功主任务的试用额度，以先到者为准。失败、取消和仅预览任务不扣次数；你配置的第三方 AI、翻译或网络服务可能按其规则收费。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="legal" data-page-node-id="legal-section">
+    <div class="wrap" data-page-node-id="legal-wrap">
+      <h2 data-page-node-id="legal-title">版权、许可证与隐私</h2>
+      <div class="grid" data-page-node-id="legal-grid">
+        <div class="card" data-page-node-id="legal-license"><h3>软件版权与许可</h3><p>MediaSculpt（影刻）是专有软件，不按 MIT 或其他开源许可证发布。预览版使用条款请查看 <a href="https://github.com/wangshaman-arch/MediaSculpt-site/blob/main/EULA.md">EULA</a> 和 <a href="https://github.com/wangshaman-arch/MediaSculpt-site/blob/main/LICENSE">LICENSE</a>。</p></div>
+        <div class="card" data-page-node-id="legal-third-party"><h3>第三方组件</h3><p>软件可能使用 Tauri、Node.js、React、FFmpeg/FFprobe、HandBrakeCLI、Whisper、LibreTranslate 等组件。它们保留各自许可证和版权声明，MediaSculpt 不会重新授权这些组件。</p></div>
+        <div class="card" data-page-node-id="legal-privacy"><h3>隐私与 AI 数据</h3><p>视频、字幕、日志和输出默认在本机处理。AI 为可选增强，API Key 和提交内容由用户直接发送给所选服务商，不经过 MediaSculpt 服务器；发送的数据受对应服务条款和隐私政策约束。</p></div>
+        <div class="card" data-page-node-id="legal-test"><h3>第三方组件与测试提示</h3><p>第三方组件按各自许可证提供，完整清单请查看 <a href="https://github.com/wangshaman-arch/MediaSculpt-site/blob/main/THIRD-PARTY-NOTICES.md">THIRD-PARTY-NOTICES</a>。当前版本不保证所有片源都能成功处理，请确认素材处理权利、核验输出并保留源素材备份。</p><p><a href="https://github.com/wangshaman-arch/MediaSculpt-site/blob/main/legal-and-privacy.md">查看完整双语说明 →</a></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" data-page-node-id="2ATIqUXsF5SwUnFOwePkVR">
+    <div class="wrap" data-page-node-id="XLoLNgrDH9HNhC3XTRg8gp">
+      <h2 data-page-node-id="mKmu2P0no7aUiWdRdIWR99">查看安装与源码</h2>
+      <p data-page-node-id="9WGdRGw3Q6oRaVQV0Jicne">当前是 V0.856 Windows 受限基础公开测试版；请以预览说明、源码和任务日志为准，不把页面文案当作兼容性保证。</p>
+      <div class="actions" data-page-node-id="DiFY0HMKnFpbQAJW1vl4FS">
+<a class="btn primary" href="https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.856.0/MediaSculpt_0.856.0_x64-setup-base.exe" data-page-node-id="8srgBgWWs5ieR78qA4oezp">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="PEuHVEvEKixcDyWHsuHEei">
+            <path d="M8 1.5v9m0 0L4.5 7M8 10.5L11.5 7M2 13.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="CAyCxlY1v3X9DjnbyegJev"/>
+          </svg>
+          下载 V0.856 基础预览安装器
+        </a>
+<a class="btn secondary" href="PREVIEW-V0.856.md" data-page-node-id="PKo8e1d7s2Dtmpt0zJrAig">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-page-node-id="YYqGK0kQnJxBPiymxlRDfZ">
+            <path d="M8 1.5v9m0 0L4.5 7M8 10.5L11.5 7M2 13.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="xbh6vXCz0HSX3iGAx5w0JL"/>
+          </svg>
+          查看说明与反馈
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site" data-page-node-id="ot7L6Hzv43MG88pi61a9wW">
+  <div class="wrap" data-page-node-id="TGm7EJEF4ZgMi1qFR2CPJq">
+    <span data-page-node-id="dawxkqzOjsYC05q1Ci8Tcg">© 2026 MediaSculpt（影刻）</span>
+    <span data-page-node-id="8EkdG8xoAWZdevdvfUXQ1D">
+<a href="https://github.com/wangshaman-arch/MediaSculpt-site/blob/main/PREVIEW-V0.856.md" data-page-node-id="7WPc1VORwkuhyfQ3lgcv15">更新日志</a> ·
+      <a href="https://github.com/wangshaman-arch/MediaSculpt-site/blob/main/legal-and-privacy.md" data-page-node-id="N1by6mTFpzhDxx1FLLPeK3">隐私与使用说明</a> ·
+      <a href="https://github.com/wangshaman-arch/MediaSculpt-site/issues" data-page-node-id="910MN95IjDWiyGuGdLKnd2">反馈问题</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
