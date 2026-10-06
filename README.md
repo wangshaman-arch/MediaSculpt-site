@@ -12,13 +12,13 @@ MediaSculpt 是面向 Windows 的本地视频处理工作台，目标是把光�
 - 记录工具版本、输入输出、处理参数、进度和错误，便于复现与排查。
 - 支持单独执行扫描、字幕、无损提取和压缩步骤，也支持组合成工作流。
 
-## V0.856 基础预览版
+## V0.860 基础预览版
 
-这是给普通 Windows 用户使用的受限基础安装包，不是源代码压缩包。安装器约 124 MB，文件版本为 `0.856.0`，已包含 FFmpeg、FFprobe、HandBrakeCLI 和基础 DVD 处理组件；Whisper、OCR、翻译工具及模型按任务需要安装或配置。
+这是给普通 Windows 用户使用的受限基础安装包，不是源代码压缩包。安装器约 124 MB，文件版本为 `0.860.0`，已包含 FFmpeg、FFprobe、HandBrakeCLI 和基础 DVD 处理组件；Whisper、OCR、翻译工具及模型按任务需要安装或配置。
 
-- [下载 Windows 基础预览安装器](https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.856.0/MediaSculpt_0.856.0_x64-setup-base.exe)
-- [下载安装器 SHA-256 校验文件](https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.856.0/MediaSculpt_0.856.0_x64-setup-base.exe.sha256)
-- [查看 V0.856 安装、使用和限制说明](PREVIEW-V0.856.md)
+- [下载 Windows 基础预览安装器](https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.860.0/MediaSculpt_0.860.0_x64-setup-base.exe)
+- [下载安装器 SHA-256 校验文件](https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.860.0/MediaSculpt_0.860.0_x64-setup-base.exe.sha256)
+- [查看 V0.860 安装、使用和限制说明](PREVIEW-V0.860.md)
 - [查看在线功能说明](https://wangshaman-arch.github.io/MediaSculpt-site/)
 
 安装后不需要另外安装 Node.js 或 pnpm。首次使用 OCR、Whisper、本地翻译或其他可选工具时，请进入软件的“设置 → 工具”查看状态并按需安装。
@@ -49,4 +49,4 @@ MediaSculpt 是专有软件，预览版使用条款见 [EULA](EULA.md)。第三�
 
 ## 开发与问题反馈
 
-源码预览包和版本构建说明见 [PREVIEW-V0.856.md](PREVIEW-V0.856.md)。反馈问题时请附上 Windows 版本、素材类型、操作步骤、工具状态、任务日志和输出文件信息，不要上传未经授权的影视内容或 API Key。
+源码预览包和版本构建说明见 [PREVIEW-V0.860.md](PREVIEW-V0.860.md)。反馈问题时请附上 Windows 版本、素材类型、操作步骤、工具状态、任务日志和输出文件信息，不要上传未经授权的影视内容或 API Key。

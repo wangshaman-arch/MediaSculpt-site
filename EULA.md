@@ -1,6 +1,6 @@
-# MediaSculpt（影刻）V0.856 Preview 使用条款
+# MediaSculpt（影刻）V0.860 Preview 使用条款
 
-> **Version:** V 0.856 · 版本：V 0.856
+> **Version:** V 0.860 · 版本：V 0.860
 
 ## 1. 试用许可
 
