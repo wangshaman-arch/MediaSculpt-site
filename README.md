@@ -14,7 +14,7 @@ MediaSculpt 是面向 Windows 的本地视频处理工作台，目标是把光�
 
 ## V0.860 基础预览版
 
-这是给普通 Windows 用户使用的受限基础安装包，不是源代码压缩包。安装器约 124 MB，文件版本为 `0.860.0`，已包含 FFmpeg、FFprobe、HandBrakeCLI 和基础 DVD 处理组件；Whisper、OCR、翻译工具及模型按任务需要安装或配置。
+这是给普通 Windows 用户使用的受限基础安装包，不是源代码压缩包。安装器约 162 MB，文件版本为 `0.860.0`，已包含 FFmpeg、FFprobe、HandBrakeCLI 和基础 DVD 处理组件；Whisper、OCR、翻译工具及模型按任务需要安装或配置。
 
 - [下载 Windows 基础预览安装器](https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.860.0/MediaSculpt_0.860.0_x64-setup-base.exe)
 - [下载安装器 SHA-256 校验文件](https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.860.0/MediaSculpt_0.860.0_x64-setup-base.exe.sha256)

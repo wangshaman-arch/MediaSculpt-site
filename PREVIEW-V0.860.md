@@ -9,7 +9,7 @@
 - [下载 Windows 基础预览安装器](https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.860.0/MediaSculpt_0.860.0_x64-setup-base.exe)
 - [下载安装器 SHA-256](https://github.com/wangshaman-arch/MediaSculpt-site/releases/download/v0.860.0/MediaSculpt_0.860.0_x64-setup-base.exe.sha256)
 
-本版本提供受限基础安装包，大小约 124 MB，文件版本为 `0.860.0`。它包含原生桌面窗口、本地 API、Node.js、FFmpeg/FFprobe 和 HandBrakeCLI；Whisper、OCR、翻译工具和模型按需安装。安装包不是源代码，也不要求用户先安装 Node.js 或 pnpm。
+本版本提供受限基础安装包，大小约 162 MB，文件版本为 `0.860.0`。它包含原生桌面窗口、本地 API、Node.js、FFmpeg/FFprobe 和 HandBrakeCLI；Whisper、OCR、翻译工具和模型按需安装。安装包不是源代码，也不要求用户先安装 Node.js 或 pnpm。
 
 ## 本次内容
 
@@ -39,7 +39,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-tauri-base.ps1
 - 前端测试：46 个测试文件、177 项通过。
 - 前端生产构建通过；仅保留已有的 sourcemap 与 bundle 大小提示。
 - Playwright 布局冒烟测试：9 项通过（默认窗口、最小窗口、高 DPI）。
-- Windows 基础安装器由 `scripts\build-tauri-base.ps1` 生成，并输出同名 `.sha256` 校验文件。
+- Tauri NSIS 基础安装器构建通过，文件版本 `0.860.0`，大小约 162.48 MB，并输出同名 `.sha256` 校验文件。
 
 ## 测试边界
 
